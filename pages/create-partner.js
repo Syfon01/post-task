@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { db } from "./firebase.config";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { useRouter } from "next/router";
 
 
 import Image from "next/image";
@@ -11,6 +12,8 @@ import FemaleIcon from "../img/female.svg";
 import CloseBtn from "../img/close-btn.svg";
 
 const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
+  const router = useRouter();
+
   const [place, setPlace] = useState()
   const [date, setDate] = useState();
   const [hotelName, setHotelName] = useState();
@@ -21,9 +24,11 @@ const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
   const [userType, setUserType] = useState();
   
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleSubmit = async (e) => {
     
     e.preventDefault();
+    setLoading(true);
     try {
       await addDoc(collection(db, "posts"), {
         place,
@@ -35,12 +40,12 @@ const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
         created: Timestamp.now(),
       });
       setSubmitted(true);
+       router.push("/posts");
 
-      console.log(place)
-      // onClose();
     } catch (err) {
       alert(err);
     }
+    finally { setLoading (false)}
   };
 
   return (
@@ -90,166 +95,177 @@ const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
                     </div>
 
                     <div className="mt-6 md:px-8 px-5">
-                      {
-                        
-                        submitted? 
+                      {submitted ? (
                         <div>
                           <p>Post succesfull</p>
                         </div>
-                        : <p>Error occurred</p>
-                      }
-                      <form onSubmit={handleSubmit}>
-                        {/* form-fields  */}
-                        <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4">
-                          <div className="">
-                            <label
-                              htmlFor="first-name"
-                              className="block text-rhythm"
-                            >
-                              Where you are going
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="text"
-                                value={place}
-                                onChange={(e) => setPlace(e.target.value)}
-                                name=""
-                                id=""
-                                autoComplete="place"
-                                className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Goa"
-                              />
+                      ) : (
+                        <form onSubmit={handleSubmit}>
+                          {/* form-fields  */}
+                          <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4">
+                            <div className="">
+                              <label
+                                htmlFor="first-name"
+                                className="block text-rhythm"
+                              >
+                                Where you are going
+                              </label>
+                              <div className="mt-1">
+                                <input
+                                  type="text"
+                                  value={place}
+                                  onChange={(e) => setPlace(e.target.value)}
+                                  name=""
+                                  id=""
+                                  autoComplete="place"
+                                  className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                  placeholder="Goa"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="">
+                              <label
+                                htmlFor="first-name"
+                                className="block text-rhythm"
+                              >
+                                When you going
+                              </label>
+                              <div className="mt-1">
+                                <input
+                                  type="date"
+                                  name=""
+                                  id=""
+                                  value={date}
+                                  onChange={(e) => setDate(e.target.value)}
+                                  autoComplete="place"
+                                  className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                  placeholder="Goa"
+                                />
+                              </div>
+                            </div>
+
+                            <div className="">
+                              <label
+                                htmlFor="first-name"
+                                className="block text-rhythm"
+                              >
+                                How much you pay for one night stay
+                              </label>
+                              <div className="mt-1">
+                                <input
+                                  type="text"
+                                  name=""
+                                  id=""
+                                  value={amount}
+                                  onChange={(e) => setAmount(e.target.value)}
+                                  autoComplete="place"
+                                  className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                  placeholder="$300"
+                                />
+                              </div>
+                              <p className="text-rhythm text-sm">
+                                Your Partner Pay{" "}
+                                <span className="text-purplePrimary">$250</span>{" "}
+                                to you
+                              </p>
+                            </div>
+
+                            <div className="">
+                              <label
+                                htmlFor="first-name"
+                                className="block text-rhythm"
+                              >
+                                Message for your partner
+                              </label>
+                              <div className="mt-1">
+                                <textarea
+                                  type="text"
+                                  name=""
+                                  id=""
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  autoComplete="place"
+                                  className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                  placeholder="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint."
+                                ></textarea>
+                              </div>
+                            </div>
+
+                            <div className="">
+                              <label
+                                htmlFor="first-name"
+                                className="block text-rhythm"
+                              >
+                                Type of travel partner looking for
+                              </label>
+                              <div className="mt-1">
+                                <ul
+                                  className="grid grid-cols-3 gap-6 mt-2"
+                                  onChange={(e) => setGender(e.target.value)}
+                                >
+                                  <li className="relative">
+                                    <input
+                                      className="sr-only peer"
+                                      type="radio"
+                                      value="male"
+                                      name="gender"
+                                      id="male"
+                                    />
+                                    <label
+                                      className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
+                                      for="male"
+                                    >
+                                      <Image src={MaleIcon} className="mr-3" />
+                                      <span className="ml-3">Male</span>
+                                    </label>
+                                  </li>
+
+                                  <li className="relative">
+                                    <input
+                                      className="sr-only peer"
+                                      type="radio"
+                                      value="female"
+                                      name="gender"
+                                      id="female"
+                                    />
+                                    <label
+                                      className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
+                                      for="female"
+                                    >
+                                      <Image
+                                        src={FemaleIcon}
+                                        className="mr-3"
+                                      />
+                                      <span className="ml-3">Female</span>
+                                    </label>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           </div>
 
-                          <div className="">
-                            <label
-                              htmlFor="first-name"
-                              className="block text-rhythm"
+                          <div className="mt-10 border-t pb-3 pt-5">
+                            <button
+                              type="submit"
+                              className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-4 bg-purplePrimary text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                             >
-                              When you going
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="date"
-                                name=""
-                                id=""
-                                value={date}
-                                onChange={(e) => setDate(e.target.value)}
-                                autoComplete="place"
-                                className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Goa"
-                              />
-                            </div>
+                              {loading ? (
+                                <div
+                                  class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+                                  role="status"
+                                >
+                                  <span class="visually-hidden">
+                                    Loading...
+                                  </span>
+                                </div>
+                              ) : (
+                                "Post it"
+                              )}
+                            </button>
                           </div>
-
-                          
-                          <div className="">
-                            <label
-                              htmlFor="first-name"
-                              className="block text-rhythm"
-                            >
-                              How much you pay for one night stay
-                            </label>
-                            <div className="mt-1">
-                              <input
-                                type="text"
-                                name=""
-                                id=""
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
-                                autoComplete="place"
-                                className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="$300"
-                              />
-                            </div>
-                            <p className="text-rhythm text-sm">
-                              Your Partner Pay{" "}
-                              <span className="text-purplePrimary">$250</span>{" "}
-                              to you
-                            </p>
-                          </div>
-
-                          <div className="">
-                            <label
-                              htmlFor="first-name"
-                              className="block text-rhythm"
-                            >
-                              Message for your partner
-                            </label>
-                            <div className="mt-1">
-                              <textarea
-                                type="text"
-                                name=""
-                                id=""
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                autoComplete="place"
-                                className="bg-white border border-[#E9E9EE] text-black font-medium text-sm rounded-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                placeholder="Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint."
-                              ></textarea>
-                            </div>
-                          </div>
-
-                          <div className="">
-                            <label
-                              htmlFor="first-name"
-                              className="block text-rhythm"
-                            >
-                              Type of travel partner looking for
-                            </label>
-                            <div className="mt-1">
-                              <ul className="grid grid-cols-3 gap-6 mt-2" onChange={(e) => setGender(e.target.value)}>
-                                <li className="relative">
-                                  <input
-                                    className="sr-only peer"
-                                    type="radio"
-                                    value="male"
-                                    name="gender"
-                                    id="male"
-                                    
-                                  />
-                                  <label
-                                    className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
-                                    for="male"
-                                  >
-                                    <Image src={MaleIcon} className="mr-3" />
-                                    <span className="ml-3">Male</span>
-                                  </label>
-                                </li>
-
-                                <li className="relative">
-                                  <input
-                                    className="sr-only peer"
-                                    type="radio"
-                                    value="female"
-                                    name="gender"
-                                    id="female"
-                                  />
-                                  <label
-                                    className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
-                                    for="female"
-                                  >
-                                    <Image src={FemaleIcon} className="mr-3" />
-                                    <span className="ml-3">Female</span>
-                                  </label>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="mt-10 border-t pb-3 pt-5">
-                          <button
-                            type="submit"
-                            className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-4 bg-purplePrimary text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
-                            // onClick={handleSubmit}
-                            
-                          >
-                            Post it
-                          </button>
-                        </div>
-                      </form>
+                        </form>
+                      )}
                     </div>
                   </div>
                 </div>

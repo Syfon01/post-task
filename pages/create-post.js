@@ -1,67 +1,94 @@
-import React from 'react'
- import { db, storage } from "./firebase.config";
- import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import React from "react";
+import { db } from "./firebase.config";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import {
+  ref,
+  uploadString,
+  getDownloadURL,
+  getStorage,
+} from "firebase/storage";
+import { useRouter } from "next/router";
 
 import uploadIcon from "../img/upload-icon.svg";
 
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import Image from "next/image";
-import UploadBox from '../components/UploadBox';
+// import UploadBox from "../components/UploadBox";
 import MaleIcon from "../img/male.svg";
 import FemaleIcon from "../img/female.svg";
 
+import CloseBtn from "../img/close-btn.svg";
 
-import CloseBtn from "../img/close-btn.svg"
+const CreatePost = ({ openModal, closeModal }) => {
+  const router = useRouter();
+  
+  const [place, setPlace] = useState();
+  const [date, setDate] = useState();
+  const [hotelName, setHotelName] = useState();
+  const [amount, setAmount] = useState();
+  const [gender, setGender] = useState();
+  const [message, setMessage] = useState();
+  const [image, setImage] = useState();
+  const [loading, setLoading] = useState(false);
 
-const CreatePost = ({openModal, closeModal}) => {
- const [place, setPlace] = useState();
- const [date, setDate] = useState();
- const [hotelName, setHotelName] = useState();
- const [amount, setAmount] = useState();
- const [gender, setGender] = useState();
- const [message, setMessage] = useState();
- const [image, setImage] = useState();
- const [userType, setUserType] = useState();
+  const [submitted, setSubmitted] = useState(false);
 
- const [submitted, setSubmitted] = useState(false);
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
- const upload = () => {
-    
-   if (image == null) return;
-   storage
-     .ref(`/posts/${image.name}`)
-     .put(image)
-     .on("state_changed", alert("success"), alert);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      // upload();
+      if (image) {
+        setLoading(true);
+        const storage = getStorage();
+        const storageRef = ref(storage, `images/${image.name}`);
 
-     console.log(image)
-     
- };
+        //Convert to base64
+        const converted = await convertBase64(image);
 
+        //upload image then add it to the request object
+        uploadString(storageRef, converted, "data_url").then((snapshot) => {
+          getDownloadURL(snapshot.ref)
+            .then((URL) => {
+              addDoc(collection(db, "posts"), {
+                place,
+                date,
+                message,
+                amount,
+                gender,
+                hotelName,
+                userType: "hotel-booking",
+                imageUrl: URL,
+                created: Timestamp.now(),
+              });
+            })
+            .then(() => {
+              setLoading(false);
+              setSubmitted(true);
+             router.push("/posts");
 
- const handleSubmit = async (e) => {
- 
-   e.preventDefault();
-   try {
-    upload();
-     await addDoc(collection(db, "posts"), {
-       place,
-       date,
-       message,
-       amount,
-       gender,
-       userType: "partner",
-       created: Timestamp.now(),
-     });
-     setSubmitted(true);
+            });
+        });
 
-     console.log(place);
-     // onClose();
-   } catch (err) {
-     alert(err);
-   }
- };
+      }
+
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   return (
     <Transition.Root show={openModal} as={Fragment}>
@@ -112,32 +139,33 @@ const CreatePost = ({openModal, closeModal}) => {
                     <div className="mt-6 md:px-8 px-5">
                       <form onSubmit={handleSubmit}>
                         <div className="grid md:grid-cols-3 gap-4">
-                          <div className="mt-1 flex justify-center items-center px-6 pt-5 pb-6 border-2 border-purplePrimary rounded-lg h-40">
+                          <div className="mt-1 flex justify-center items-center px-6 pt-5 pb-6 border-2 border-purplePrimary rounded-lg">
                             <div className="space-y-1 text-center">
-                              <Image src={uploadIcon} />
-                              <div className="flex text-sm text-gray-600">
+                              <div className="">
+                                <input
+                                  id="file-upload"
+                                  name="file-upload"
+                                  type="file"
+                                  className="sr-only"
+                                  onChange={(e) => {
+                                    setImage(e.target.files[0]);
+                                  }}
+                                />
+
                                 <label
                                   htmlFor="file-upload"
-                                  className="relative cursor-pointer bg-white rounded-md font-medium text-purplePrimary hover:text-purplePrimary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+                                  className="relative cursor-pointer bg-white rounded-md font-medium text-purplePrimary hover:text-purplePrimary focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500 py-10"
                                 >
-                                  <span>Upload Image</span>
-                                  <input
-                                    id="file-upload"
-                                    name="file-upload"
-                                    type="file"
-                                    className="sr-only"
-                                    onChange={(e) => {
-                                      setImage(e.target.files[0]);
-                                    }}
+                                  <Image
+                                    src={uploadIcon}
+                                    className="d-block cursor"
                                   />
+
+                                  <span className="block">Upload Image</span>
                                 </label>
                               </div>
                             </div>
                           </div>
-                          {/* <button onClick={upload}>Button</button> */}
-
-                          {/* <UploadBox />
-                          <UploadBox /> */}
                         </div>
 
                         {/* form-fields  */}
@@ -326,7 +354,16 @@ const CreatePost = ({openModal, closeModal}) => {
                             type="submit"
                             className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-4 bg-purplePrimary text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
                           >
-                            Post it
+                            {loading ? (
+                              <div
+                                class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+                                role="status"
+                              >
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            ) : (
+                              "Post it"
+                            )}
                           </button>
                         </div>
                       </form>
@@ -340,6 +377,6 @@ const CreatePost = ({openModal, closeModal}) => {
       </Dialog>
     </Transition.Root>
   );
-}
+};
 
-export default CreatePost
+export default CreatePost;
