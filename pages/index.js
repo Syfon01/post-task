@@ -1,8 +1,34 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import CreatePost from './create-post';
+import CreatePartner from './create-partner';
+import hotelImg from "../img/Hotel1.png";
+import partnerImg from "../img/partner.png";
+import { useState } from 'react';
+
 
 export default function Home() {
+  const [openHotel, setOpenHotel] = useState(false)
+  const [openPartner, setOpenPartner] = useState(false);
+
+
+
+
+
+  
+  const handleBookHotel = () => {
+    setOpenHotel(true)
+  }
+  const handleBookPartner = () => {
+    setOpenPartner(true);
+  };
+  const handleClose = () => {
+    setOpenHotel(false);
+  };
+  const handleClosePartner = () => {
+    setOpenPartner(false);
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -11,59 +37,65 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+      <main className="container pt-10">
+        <div className="main-bg p-10">
+          <div className="flex  justify-between items-center h-[60vh]">
+            <div className="w-full">
+              <div className="flex md:flex-row flex-col justify-between">
+                <div className="w-[60%]">
+                  <h3 className="md:text-5xl text-4xl">
+                    Click to create Post based on <br />
+                    <span className="font-bold">Category</span>
+                  </h3>
+                </div>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
+                <div className="md:w-[30%]">
+                  <div className="p-4 bg-white rounded-xl space-y-4">
+                    <button onClick={handleBookHotel}>
+                      <div className="px-4 pt-2 bg-[#DFE8FF] rounded-2xl">
+                        <div className="flex justify-between text-left items-center">
+                          <div className="w-[40%]">
+                            <Image src={hotelImg} />
+                          </div>
+                          <div className="w-[60%]">
+                            <p className="font-semibold text-xl">
+                              Already Booked
+                            </p>
+                            <p className="text-sm">
+                              My hotel is booked just looking for partner
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                    <button className="w-full" onClick={handleBookPartner}>
+                      <div className="px-4 pt-2 bg-[#FFD6D6] rounded-2xl w-full">
+                        <div className="flex justify-between  items-center text-left">
+                          <div className="w-[50%]">
+                            <p className="font-semibold text-xl">
+                              Finding partner
+                            </p>
+                            <p className="text-sm">
+                              I’m looking for travel partner
+                            </p>
+                          </div>
 
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+                          <div className="w-[30%]">
+                            <Image src={partnerImg} />
+                          </div>
+                        </div>
+                      </div>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+        <CreatePost openModal={openHotel} closeModal={handleClose} />
+        <CreatePartner openPartnerModal={openPartner} closePartnerModal={handleClosePartner} />
+      </main>
     </div>
-  )
+  );
 }
