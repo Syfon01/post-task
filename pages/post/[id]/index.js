@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
   doc,
-  getDoc,
-  collection,
-  query,
-  orderBy,
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../../firebase.config";
-import styles from "../../../styles/Home.module.css";
 import Image from "next/image";
 import Avatar from "../../../img/avatar.png";
 import UserIcon from "../../../img/user.svg";
@@ -23,17 +18,20 @@ const PostDetails = () => {
 
   const { id } = router.query;
 
-  const docRef = doc(db, "posts", id);
 
   useEffect(() => {
-    
-    onSnapshot(docRef, (doc) => {
-      setDetails(doc.data());
-    });
+    if (id) {
+      const docRef = doc(db, "posts", id);
+
+      onSnapshot(docRef, (doc) => {
+        setDetails(doc.data());
+      });
+
       setLoading(false);
+    }
 
     // console.log("details", details);
-  }, [loading]);
+  }, [loading, id]);
   return (
     <section className="bg-[#FCFCFF] min-h-screen">
       <main className="container py-10">

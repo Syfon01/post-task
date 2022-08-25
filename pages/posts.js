@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { getDownloadURL } from "firebase/storage";
 import Link from "next/link";
 import { db } from "../firebase.config";
-import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Avatar from "../img/avatar.png";
 import UserIcon from "../img/user.svg";

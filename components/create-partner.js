@@ -14,14 +14,14 @@ import CloseBtn from "../img/close-btn.svg";
 const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
   const router = useRouter();
 
-  const [place, setPlace] = useState()
-  const [date, setDate] = useState();
-  const [hotelName, setHotelName] = useState();
-  const [amount, setAmount] = useState();
-  const [gender, setGender] = useState();
-  const [message, setMessage] = useState();
-  const [images, setImages] = useState();
-  const [userType, setUserType] = useState();
+  const [place, setPlace] = useState('')
+  const [date, setDate] = useState('');
+  const [hotelName, setHotelName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [gender, setGender] = useState('');
+  const [message, setMessage] = useState('');
+  const [images, setImages] = useState('');
+  const [userType, setUserType] = useState('');
   
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);

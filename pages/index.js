@@ -1,20 +1,15 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import CreatePost from './create-post';
-import CreatePartner from './create-partner';
+import CreatePost from '../components/create-post';
+import CreatePartner from '../components/create-partner';
 import hotelImg from "../img/Hotel1.png";
 import partnerImg from "../img/partner.png";
 import { useState } from 'react';
 
-
 export default function Home() {
   const [openHotel, setOpenHotel] = useState(false)
   const [openPartner, setOpenPartner] = useState(false);
-
-
-
-
 
   
   const handleBookHotel = () => {

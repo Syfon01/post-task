@@ -23,13 +23,13 @@ import CloseBtn from "../img/close-btn.svg";
 const CreatePost = ({ openModal, closeModal }) => {
   const router = useRouter();
   
-  const [place, setPlace] = useState();
-  const [date, setDate] = useState();
-  const [hotelName, setHotelName] = useState();
-  const [amount, setAmount] = useState();
-  const [gender, setGender] = useState();
-  const [message, setMessage] = useState();
-  const [image, setImage] = useState();
+  const [place, setPlace] = useState('');
+  const [date, setDate] = useState('');
+  const [hotelName, setHotelName] = useState('');
+  const [amount, setAmount] = useState('');
+  const [gender, setGender] = useState('');
+  const [message, setMessage] = useState('');
+  const [image, setImage] = useState('');
   const [loading, setLoading] = useState(false);
 
   const [submitted, setSubmitted] = useState(false);
