@@ -8,6 +8,7 @@ import { db } from "../../../firebase.config";
 import Image from "next/image";
 import Avatar from "../../../img/avatar.png";
 import UserIcon from "../../../img/user.svg";
+import starIcon from "../../../img/star.svg";
 import postImg from "../../../img/post-img.png";
 
 const PostDetails = () => {
@@ -84,20 +85,27 @@ const PostDetails = () => {
             </div>
             <div className="flex md:flex-row flex-col mt-2 gap-x-10">
               <div className="md:w-[70%]">
-                <div className="flex justify-between mt-2">
+                <div className="flex justify-between items-center mt-2">
                   <p className="md:text-4xl font-bold md:w-1/2 w-3/4">
                     {" "}
                     {details?.hotelname ? details.hotelName : details?.place}
                   </p>
 
                   <div className="mt-3">
-                    <div className="rounded-full p-1 border border-[#E9E9EE]">
-                      <p className="font-medium">4.0</p>
+                    <div className="rounded-full py-1 px-2.5 items-center flex border border-[#E9E9EE]">
+                      <div>
+                        <Image
+                          src={starIcon}
+                          alt="rating"
+                          className="rounded-lg"
+                        />
+                      </div>
+                      <p className="font-medium ml-1">4.0</p>
                     </div>
                   </div>
                 </div>
                 <div className=" py-6">
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center flex-wrap">
                     <div className="flex">
                       <div className="rounded-full py-1 px-2.5 border border-[#E9E9EE]">
                         <p className="font-medium">{details?.date}</p>
@@ -107,10 +115,12 @@ const PostDetails = () => {
                       </div>
                     </div>
                     <p>
-                      <span className="text-3xl font-medium">
+                      <span className="md:text-3xl text-xl font-medium">
                         ${details?.amount}
                       </span>
-                      <span className="text-2xl text-rhythm">/Day</span>
+                      <span className="md:text-2xl text-lg text-rhythm">
+                        /Day
+                      </span>
                     </p>
                   </div>
                 </div>
