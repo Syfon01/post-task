@@ -6,6 +6,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        totel: ["Inter", "sans-serif"],
+      },
       colors: {
         purplePrimary: "#657ADC",
         primary500: "#2CA955",
@@ -20,7 +23,7 @@ module.exports = {
           xl: "4rem",
           "2xl": "6rem",
         },
-      }
+      },
     },
   },
   plugins: [],
