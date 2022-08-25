@@ -92,7 +92,7 @@ const Post = ({title, }) => {
                       <div className=" p-4">
                         <div className="flex justify-between items-center">
                           <div>
-                            <div className="rounded-full p-1 border border-[#E9E9EE]">
+                            <div className="rounded-full py-1 px-2.5 border border-[#E9E9EE]">
                               <p className="font-medium">{post.data?.date}</p>
                             </div>
                           </div>
