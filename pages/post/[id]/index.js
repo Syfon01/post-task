@@ -43,7 +43,7 @@ const PostDetails = () => {
             <span className="visually-hidden">Loading...</span>
           </div>
         ) : (
-          <div className="">
+          <div className="bg-white p-3">
             <div className="h-80 w-full relative">
               <Image
                 src={details?.imageUrl ? details?.imageUrl : postImg}

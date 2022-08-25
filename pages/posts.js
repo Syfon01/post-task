@@ -39,7 +39,7 @@ const Post = ({title, }) => {
               >
                 <a>
                   <div
-                    className="border border-[#E9E9EE] rounded-xl hover:shadow"
+                    className="border border-[#E9E9EE] bg-white rounded-xl hover:shadow"
                     key={post.id}
                   >
                     <div className="">
