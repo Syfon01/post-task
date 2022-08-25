@@ -99,11 +99,11 @@ const PostDetails = () => {
                 <div className=" py-6">
                   <div className="flex justify-between items-center">
                     <div className="flex">
-                      <div className="rounded-full p-1 border border-[#E9E9EE]">
+                      <div className="rounded-full py-1 px-2.5 border border-[#E9E9EE]">
                         <p className="font-medium">{details?.date}</p>
-                      </div> 
+                      </div>
                       <div className="rounded-full font-medium text-white bg-[#F26465] py-1 px-3 ml-5">
-                        {details?.gender} 
+                        {details?.gender}
                       </div>
                     </div>
                     <p>
