@@ -201,7 +201,7 @@ const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
                               </label>
                               <div className="mt-1">
                                 <ul
-                                  className="grid grid-cols-3 gap-6 mt-2"
+                                  className="grid md:grid-cols-3 grid-cols-2 gap-6 mt-2"
                                   onChange={(e) => setGender(e.target.value)}
                                 >
                                   <li className="relative">
@@ -216,7 +216,11 @@ const CreatePartner = ({ openPartnerModal, closePartnerModal }) => {
                                       className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
                                       htmlFor="male"
                                     >
-                                      <Image src={MaleIcon} className="mr-3" alt=""/>
+                                      <Image
+                                        src={MaleIcon}
+                                        className="mr-3"
+                                        alt=""
+                                      />
                                       <span className="ml-3">Male</span>
                                     </label>
                                   </li>
