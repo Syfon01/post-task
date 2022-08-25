@@ -54,7 +54,7 @@ const PostDetails = () => {
               />
             </div>
 
-            <div className="flex md:flex-row justify-between items-center flex-col mt-4">
+            <div className="flex md:flex-row justify-between items-center mt-4">
               <p className="text-sm text-gray-500">
                 {" "}
                 {new Date(details?.created.toDate().toString()).toDateString()}

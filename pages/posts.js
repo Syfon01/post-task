@@ -30,11 +30,18 @@ const Post = ({title, }) => {
     <>
       <section className="bg-[#FCFCFF] min-h-screen">
         <main className="container py-10">
-          <div className="grid grid-cols-4 gap-4" >
+          <div className="grid xl:grid-cols-4 md:grid-cols-2 gap-4">
             {posts.map((post) => (
-              <Link href={`post/${post.id}`} className="cursor-pointer" key={post.id}>
+              <Link
+                href={`post/${post.id}`}
+                className="cursor-pointer"
+                key={post.id}
+              >
                 <a>
-                  <div className="border border-[#E9E9EE] rounded-xl hover:shadow" key={post.id}>
+                  <div
+                    className="border border-[#E9E9EE] rounded-xl hover:shadow"
+                    key={post.id}
+                  >
                     <div className="">
                       <div className="card-header p-4">
                         <div className="flex justify-between items-center">
