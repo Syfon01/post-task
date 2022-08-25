@@ -1,5 +1,5 @@
 import React from "react";
-import { db } from "./firebase.config";
+import { db } from "../firebase.config";
 import { collection, addDoc, Timestamp } from "firebase/firestore";
 import {
   ref,
@@ -159,6 +159,7 @@ const CreatePost = ({ openModal, closeModal }) => {
                                   <Image
                                     src={uploadIcon}
                                     className="d-block cursor"
+                                    alt=""
                                   />
 
                                   <span className="block">Upload Image</span>
@@ -321,9 +322,9 @@ const CreatePost = ({ openModal, closeModal }) => {
                                   />
                                   <label
                                     className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
-                                    for="male"
+                                    htmlFor="male"
                                   >
-                                    <Image src={MaleIcon} className="mr-3" />
+                                    <Image src={MaleIcon} className="mr-3" alt=""/>
                                     <span className="ml-3">Male</span>
                                   </label>
                                 </li>
@@ -338,9 +339,9 @@ const CreatePost = ({ openModal, closeModal }) => {
                                   />
                                   <label
                                     className="flex py-6 bg-white border border-gray-300 justify-center rounded-xl cursor-pointer focus:outline-none hover:bg-gray-50 peer-checked:purplePrimary peer-checked:ring-2 peer-checked:border-transparent"
-                                    for="female"
+                                    htmlFor="female"
                                   >
-                                    <Image src={FemaleIcon} className="mr-3" />
+                                    <Image src={FemaleIcon} className="mr-3" alt="" />
                                     <span className="ml-3">Female</span>
                                   </label>
                                 </li>
@@ -356,10 +357,10 @@ const CreatePost = ({ openModal, closeModal }) => {
                           >
                             {loading ? (
                               <div
-                                class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+                                className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
                                 role="status"
                               >
-                                <span class="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">Loading...</span>
                               </div>
                             ) : (
                               "Post it"

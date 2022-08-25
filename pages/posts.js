@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { getDownloadURL } from "firebase/storage";
 import Link from "next/link";
-import { db } from "./firebase.config";
+import { db } from "../firebase.config";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Avatar from "../img/avatar.png";
@@ -32,11 +32,11 @@ const Post = ({title, }) => {
     <>
       <section className="bg-[#FCFCFF] min-h-screen">
         <main className="container py-10">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-4" >
             {posts.map((post) => (
-              <Link href={`post/${post.id}`} className="cursor-pointer">
+              <Link href={`post/${post.id}`} className="cursor-pointer" key={post.id}>
                 <a>
-                  <div className="border border-[#E9E9EE] rounded-xl hover:shadow">
+                  <div className="border border-[#E9E9EE] rounded-xl hover:shadow" key={post.id}>
                     <div className="">
                       <div className="card-header p-4">
                         <div className="flex justify-between items-center">
@@ -72,7 +72,7 @@ const Post = ({title, }) => {
                           src={
                             post.data.imageUrl ? post.data.imageUrl : postImg
                           }
-                          alt="hotel image"
+                          alt="hotel"
                           objectFit="cover"
                           layout="fill"
                           unoptimized

@@ -8,7 +8,7 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import { db } from "../../firebase.config";
+import { db } from "../../../firebase.config";
 import styles from "../../../styles/Home.module.css";
 import Image from "next/image";
 import Avatar from "../../../img/avatar.png";
@@ -39,19 +39,20 @@ const PostDetails = () => {
       <main className="container py-10">
         {loading ? (
           <div
-            class="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
+            className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-blue-600"
             role="status"
           >
-            <span class="visually-hidden">Loading...</span>
+            <span className="visually-hidden">Loading...</span>
           </div>
         ) : (
-          <div class="">
+          <div className="">
             <div className="h-80 w-full relative">
               <Image
                 src={details?.imageUrl ? details?.imageUrl : postImg}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-xl"
+                alt=""
               />
             </div>
 
@@ -75,9 +76,9 @@ const PostDetails = () => {
                     <path
                       d="M3 1H9C9.53043 1 10.0391 1.21071 10.4142 1.58579C10.7893 1.96086 11 2.46957 11 3V17L6 14L1 17V3C1 2.46957 1.21071 1.96086 1.58579 1.58579C1.96086 1.21071 2.46957 1 3 1Z"
                       stroke="black"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                   </svg>
                 </button>
